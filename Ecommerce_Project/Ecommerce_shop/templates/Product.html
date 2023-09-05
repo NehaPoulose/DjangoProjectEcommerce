@@ -1,0 +1,46 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block metadescription %}
+
+    {{ key_product.product_description|truncatechars:155 }}
+
+{% endblock %}
+
+{% block title %}
+  {% if key_cat %}
+    {{key_product.name}} - NEW WAVES
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row my_prod_row_class">
+    <div class="mx_auto">
+        <p><a href="{% url 'ecommerce_app:allProductCategory' %}">Home</a>|<a href="{{key_product.category.get_url}}">{{key_product.category}}</a>|{{key_product.name}}</p>
+    </div>
+</div>
+<div class="container">
+<br>
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+        <div style="min-width : 18rem">
+            <img src="{{key_product.image.url}}" alt="{{key_product.name}}">
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+        <div>
+        <h1 class="my_prod_title">{{key_product.name}}</h1>
+        <h3>${{key_product.price}}</h3>
+        <p>Product Description</p>
+        <p class="text-justify my_prod_text">{{key_product.product_description}}</p>
+
+        {% if key_product.stock <= 0 %}
+            <p class="text-justify my_prod_text"><b>Out of Stock</b></p>
+        {% else %}
+            <a class="btn btn-secondary" href="{% url 'cart_app:add_cart' key_product.id %}">Add to Cart</a>
+        {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

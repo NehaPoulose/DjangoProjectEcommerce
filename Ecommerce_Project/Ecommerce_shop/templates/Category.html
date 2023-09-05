@@ -1,0 +1,78 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block metadescription %}
+  {% if key_cat %}
+    {{ key_cat.category_description|truncatechars:155 }}
+  {% else %}
+    With more than a decade of expertise in eCommerce website development in Kerala, we guarantee to build the best online store for your business. Free ecommerce consulting. Contact us today
+  {% endif %}
+{% endblock %}
+
+{% block title %}
+  {% if key_cat %}
+    {{key_cat.name}} - SHOP
+  {% else %}
+    E-commercercial Website
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if key_cat %}
+    <div>
+      <div class="row my_row_class">
+        <div class="mx_auto">
+        <p><a href="{% url 'ecommerce_app:allProductCategory' %}">Our Product Collection</a></p>
+      </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="mx_auto">
+    {% if key_cat %}
+      <img class="my_image" src="{{key_cat.image.url}}" alt="{{kay_cat.name}}">
+  </div>
+  <br>
+
+  <div>
+    <h1 class="text-center my_title">{{key_cat.name}}</h1>
+    <p class="text-justify">{{key_cat.description}}</p>
+  </div>
+    {% else %}
+      <div class="mx_auto">
+        <img class="my_image my_image_padding" src="{% static 'images/banner.png' %}" alt="Our Store" width="1500px"; height="350px">
+      </div>
+      <br>
+      <div>
+        <h1>Our Products</h1>
+        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+      </div>
+    {% endif %}
+<div class="container">
+  <div class="row mx_auto">
+    {% for product in key_prod.object_list %}
+    <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-lg-4">
+      <div class="card text-center" style="min-width : 18rem;">
+        <a href="{{product.get_url}}"><img class="card-img-top my_image" src="{{product.image.url}}" alt="{{product.name}}" style="height:350px; width=300px;"></a>
+      <div class="card-body">
+      <h4>{{product.name}}</h4>
+      <h5>{{product.price}}</h5>
+      </div>
+    </div>
+  </div>
+    {% endfor %}
+</div>
+  <div class="mx_auto">
+    {% if key_prod.paginator.num_pages > 1 %}
+
+      <hr>
+      <div class="text-center">
+        {% for page_n in key_prod.paginator.page_range %}
+          <a href="?page={{page_n}}" class="btn btn-light btn-sm {% if key_prod.number == page_n %} active {% endif %}">{{page_n}}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  <br>
+</div>
+{% endblock %}
+
